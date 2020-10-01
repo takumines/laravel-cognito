@@ -57,6 +57,8 @@ create-project:
 # Install
 #-----------------------------------------------------------
 
+aws-sdk-php:
+	docker-compose exec php composer require aws/aws-sdk-php
 
 #-----------------------------------------------------------
 # PHP Code Sniffer
