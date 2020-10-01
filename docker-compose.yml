@@ -9,6 +9,7 @@ services:
       - ./server:/var/www
     depends_on:
       - mysql
+      - mailhog
 
   nginx:
     image: nginx
@@ -38,6 +39,7 @@ services:
   mailhog:
     image: mailhog/mailhog
     ports:
+    - 1025:1025
     - 8025:8025
 
 ######### Volumes ###################################
