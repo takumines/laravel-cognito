@@ -97,8 +97,9 @@ class RegisterController extends Controller
     {
         return User::create(
             [
-                'cognito_username' => $username,
+                'name' => $data['name'],
                 'email' => $data['email'],
+                'cognito_username' => $username,
             ]
         );
     }
