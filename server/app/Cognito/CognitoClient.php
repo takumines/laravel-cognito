@@ -41,7 +41,6 @@ class CognitoClient
      */
     public function register($email, $password, $attributes = [])
     {
-        dd($this->client);
         try {
             $response = $this->client->signUp([
                 'ClientId'       => $this->clientId,
@@ -56,6 +55,58 @@ class CognitoClient
 
         return $response['UserSub'];
     }
+
+    /**
+     * メールアドレスとパスワードで認証を行う
+     *
+     * @param $email
+     * @param $password
+     * @return \Aws\Result|false
+     */
+    public function authenticate($email, $password)
+    {
+        try{
+            $response = $this->client->adminInitiateAuth(
+                [
+                    'AuthFlow' => 'ADMIN_NO_SRP_AUTH',
+                    'AuthParameters' => [
+                        'USERNAME' => $email,
+                        'PASSWORD' => $password,
+                        'SECRET_HASH' => $this->cognitoSecretHash($email)
+                    ],
+                    'ClientId' => $this->clientId,
+                    'UserPoolId' => $this->poolId
+                ]
+            );
+        } catch (CognitoIdentityProviderException $e) {
+            return false;
+        }
+
+        return $response;
+    }
+
+    /**
+     * パスワードリセット
+     *
+     * @param $email
+     * @param $password
+     * @return \Aws\Result
+     */
+    public function resetPassword($email, $password)
+    {
+        try {
+            $response = $this->client->adminSetUserPassword([
+                'Password'   => $password,
+                'Username'   => $email,
+                'UserPoolId' => $this->poolId
+            ]);
+        } catch (CognitoIdentityProviderException $e) {
+            throw $e;
+        }
+
+        return $response;
+    }
+
 
     /**
      * @param $username
