@@ -13,13 +13,10 @@ class CognitoUserUniqueValidator
     }
 
     /**
-     * @param $attribute
      * @param $value
-     * @param $parameters
-     * @param $validator
      * @return bool
      */
-    public function validate($attribute, $value, $parameters, $validator)
+    public function validate($value)
     {
 
         $cognitoUser = $this->authManager->getCognitoUser($value);
