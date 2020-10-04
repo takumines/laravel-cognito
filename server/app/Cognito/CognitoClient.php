@@ -65,7 +65,7 @@ class CognitoClient
      */
     public function authenticate($email, $password)
     {
-        try{
+        try {
             $response = $this->client->adminInitiateAuth(
                 [
                     'AuthFlow' => 'ADMIN_NO_SRP_AUTH',

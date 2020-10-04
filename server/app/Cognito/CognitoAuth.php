@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Cognito;
 
 use Illuminate\Auth\SessionGuard;

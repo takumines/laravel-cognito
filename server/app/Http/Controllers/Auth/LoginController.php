@@ -23,7 +23,6 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-
     use AuthenticatesUsers;
 
     /**
@@ -55,7 +54,6 @@ class LoginController extends Controller
         $this->validateLogin($request);
 
         if ($this->hasTooManyLoginAttempts($request)) {
-
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
@@ -65,10 +63,8 @@ class LoginController extends Controller
             if ($this->attemptLogin($request)) {
                 return $this->sendLoginResponse($request);
             }
-
         } catch (CognitoIdentityProviderException $ce) {
             return $this->sendFailedCognitoResponse($ce);
-
         } catch (\Exception $e) {
             return $this->sendFailedLoginResponse($request);
         }
@@ -106,5 +102,4 @@ class LoginController extends Controller
             ],
         ])->status(Response::HTTP_TOO_MANY_REQUESTS);
     }
-
 }
