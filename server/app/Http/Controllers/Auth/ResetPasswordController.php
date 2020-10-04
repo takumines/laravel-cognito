@@ -20,7 +20,6 @@ class ResetPasswordController extends Controller
     | explore this trait and override any methods you wish to tweak.
     |
     */
-
     use ResetsPasswords;
 
     /**
@@ -32,7 +31,7 @@ class ResetPasswordController extends Controller
      * ResetPasswordController constructor.
      * @param CognitoClient $client
      */
-    public function __construct( CognitoClient $client)
+    public function __construct(CognitoClient $client)
     {
         $this->client = $client;
     }
@@ -72,4 +71,3 @@ class ResetPasswordController extends Controller
         ];
     }
 }
-

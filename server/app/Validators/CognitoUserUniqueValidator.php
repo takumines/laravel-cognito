@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Validators;
 
 use Illuminate\Auth\AuthManager;
