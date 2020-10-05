@@ -86,6 +86,26 @@ class CognitoClient
     }
 
     /**
+     * ユーザー認証を行う
+     *
+     * @param string $email
+     * @return CognitoIdentityProviderException|\Aws\Result|\Exception
+     */
+    public function confirmSignUp(string $email)
+    {
+        try {
+            $response = $this->client->adminConfirmSignUp([
+                'UserPoolId' => $this->poolId,
+                'Username'   => $email
+            ]);
+        } catch (CognitoIdentityProviderException $e) {
+            return $e;
+        }
+
+        return $response;
+    }
+
+    /**
      * パスワードリセット
      *
      * @param $email

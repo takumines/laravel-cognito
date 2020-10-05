@@ -55,6 +55,14 @@ class CognitoAuth extends SessionGuard implements StatefulGuard
     }
 
     /**
+     * @param $email
+     */
+    public function confirmSignUp($email)
+    {
+        $this->client->confirmSignUp($email);
+    }
+
+    /**
      * 与えられた資格情報を使用してユーザーの認証を試す
      *
      * @param array $credentials
