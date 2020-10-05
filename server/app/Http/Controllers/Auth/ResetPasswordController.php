@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Cognito\CognitoClient;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
@@ -20,12 +20,18 @@ class ResetPasswordController extends Controller
     | explore this trait and override any methods you wish to tweak.
     |
     */
-
     use ResetsPasswords;
 
+    /**
+     * @var CognitoClient
+     */
     protected $client;
 
-    public function __construct( CognitoClient $client)
+    /**
+     * ResetPasswordController constructor.
+     * @param CognitoClient $client
+     */
+    public function __construct(CognitoClient $client)
     {
         $this->client = $client;
     }
@@ -38,18 +44,14 @@ class ResetPasswordController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * パスワードリセット
+     * パスワード変更をcognitoにリクエストする
      *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param User $user
+     * @param string $password
      */
-    public function reset(Request $request)
+    public function resetPassword(User $user, string $password)
     {
-        $request->validate($this->rules(), $this->validationErrorMessages());
-
-        $this->client->resetPassword($request->input('email'), $request->input('password'));
-
-        return redirect()->route('login');
+        $this->client->resetPassword($user->email, $password);
     }
 
     /**
@@ -69,4 +71,3 @@ class ResetPasswordController extends Controller
         ];
     }
 }
-

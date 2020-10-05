@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Cognito;
 
 use Illuminate\Auth\SessionGuard;
@@ -52,6 +51,14 @@ class CognitoAuth extends SessionGuard implements StatefulGuard
         $username = $this->client->register($email, $pass, $attributes);
 
         return $username;
+    }
+
+    /**
+     * @param $email
+     */
+    public function confirmSignUp($email)
+    {
+        $this->client->confirmSignUp($email);
     }
 
     /**

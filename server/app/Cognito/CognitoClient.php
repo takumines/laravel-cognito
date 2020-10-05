@@ -65,7 +65,7 @@ class CognitoClient
      */
     public function authenticate($email, $password)
     {
-        try{
+        try {
             $response = $this->client->adminInitiateAuth(
                 [
                     'AuthFlow' => 'ADMIN_NO_SRP_AUTH',
@@ -80,6 +80,26 @@ class CognitoClient
             );
         } catch (CognitoIdentityProviderException $e) {
             return false;
+        }
+
+        return $response;
+    }
+
+    /**
+     * ユーザー認証を行う
+     *
+     * @param string $email
+     * @return CognitoIdentityProviderException|\Aws\Result|\Exception
+     */
+    public function confirmSignUp(string $email)
+    {
+        try {
+            $response = $this->client->adminConfirmSignUp([
+                'UserPoolId' => $this->poolId,
+                'Username'   => $email
+            ]);
+        } catch (CognitoIdentityProviderException $e) {
+            return $e;
         }
 
         return $response;

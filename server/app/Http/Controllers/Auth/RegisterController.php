@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Auth\Events\Registered;
@@ -23,7 +22,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
     use RegistersUsers;
 
     /**
@@ -31,8 +29,11 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = 'email/verify';
 
+    /**
+     * @var AuthManager
+     */
     private $authManager;
 
     /**
@@ -66,6 +67,7 @@ class RegisterController extends Controller
 
         $user = $this->create($data, $username);
         event(new Registered($user));
+        $this->authManager->confirmSignUp($user->email);
 
         return redirect($this->redirectPath());
     }
