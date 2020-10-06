@@ -67,6 +67,7 @@ class RegisterController extends Controller
 
         $user = $this->create($data, $username);
         event(new Registered($user));
+        $this->guard()->login($user);
         $this->authManager->confirmSignUp($user->email);
 
         return redirect($this->redirectPath());

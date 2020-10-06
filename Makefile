@@ -60,6 +60,9 @@ create-project:
 aws-sdk-php:
 	docker-compose exec php composer require aws/aws-sdk-php
 
+passport:
+	docker-compose exec php composer require laravel/passport
+
 #-----------------------------------------------------------
 # PHP Code Sniffer
 #-----------------------------------------------------------
