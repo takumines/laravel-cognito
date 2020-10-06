@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -14,11 +13,6 @@ use Illuminate\Validation\ValidationException;
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
-
-    /**
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * LoginController constructor.
@@ -47,7 +41,12 @@ class LoginController extends Controller
 
         try {
             if ($this->attemptLogin($request)) {
-                return  $this->sendLoginResponse($request);
+                $user = $request->user();
+                $token = $user->createToken('user_token')->accessToken;
+
+                return response()->json([
+                    'token' => $token,
+                ]);
             }
         } catch (CognitoIdentityProviderException $ce) {
             return $this->sendFailedCognitoResponse($ce);
