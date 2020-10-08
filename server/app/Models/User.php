@@ -19,7 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'cognito_username',
+        'name', 'email', 'cognito_username', 'role'
     ];
 
     public function sendEmailVerificationNotification()
