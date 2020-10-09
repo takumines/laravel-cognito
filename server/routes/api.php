@@ -23,7 +23,13 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
     Route::middleware('verified')->group(function () {
         Route::post('email/resend', 'Auth\VerificationController@resend');
         Route::get('/', 'ApiController@index');
-        Route::get('/users/{user}', 'ApiController@show');
+        Route::get('users/{user}', 'ApiController@show');
+
+        Route::get('works', 'Member\WorkController@index');
+        Route::post('works', 'Member\WorkController@store');
+        Route::get('works/{work}', 'Member\WorkController@show');
+        Route::put('works/{work}', 'Member\WorkController@update');
+        Route::delete('works/{work}', 'Member\WorkController@destroy');
 
         Route::namespace('Admin')->middleware('admin')->group(function () {
             Route::get('admin', 'HomeController@index');
