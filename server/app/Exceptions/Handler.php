@@ -3,7 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use League\OAuth2\Server\Exception\OAuthServerException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +37,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof OAuthServerException && $exception->getCode() == 9) {
+            return;
+        }
+
         parent::report($exception);
     }
 
@@ -42,10 +49,21 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof AuthenticationException) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+
+        if ($exception instanceof AuthorizationException) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 403);
+        }
         return parent::render($request, $exception);
     }
 }
