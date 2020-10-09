@@ -23,7 +23,7 @@ class Admin
             ]);
         }
 
-        if (Auth::user()->role === Role::MEMBER) {
+        if (Auth::user()->role === Role::GENERAL_MEMBER) {
             return response()->json([
                 'message' => 'Permission Denied'
             ]);
