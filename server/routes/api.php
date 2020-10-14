@@ -33,10 +33,11 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
 //            Route::put('works/{work}', 'WorkController@update');
 //            Route::delete('works/{work}', 'WorkController@destroy');
 
-            Route::get('facilities', 'FacilityController@index');
-            Route::get('facilities/{facility}', 'FacilityController@show');
+            Route::get('properties', 'PropertyController@index');
+            Route::get('properties/{property}', 'PropertyController@show');
 
             Route::post('profiles', 'ProfileController@update');
+            Route::post('requests', 'RequestController@store');
         });
 
         Route::namespace('Admin')->middleware('admin')->group(function () {
