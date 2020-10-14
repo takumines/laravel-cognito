@@ -23,7 +23,6 @@ class RegisterRequest extends ApiRequest
     public function rules()
     {
         return [
-            'name'     => ['required', 'string'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users', 'cognito_user_unique'],
             'password' => [
                 'required', 'string', 'min:8', 'confirmed',
