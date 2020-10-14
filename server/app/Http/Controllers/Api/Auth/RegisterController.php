@@ -46,8 +46,10 @@ class RegisterController extends Controller
         );
 
         $user = $this->create($data, $username);
-        event(new Registered($user));
-        $this->authManager->confirmSignUp($user->email);
+        if ($user) {
+            event(new Registered($user));
+            $this->authManager->confirmSignUp($user->email);
+        }
 
         $token = $user->createToken('user_token')->accessToken;
 
@@ -64,7 +66,6 @@ class RegisterController extends Controller
     protected function create(array $data, string $username)
     {
         return User::create([
-            'name'             => $data['name'],
             'email'            => $data['email'],
             'cognito_username' => $username,
         ]);
