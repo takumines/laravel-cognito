@@ -8,9 +8,7 @@ class Role extends Enum
 {
     public const ADMIN = 'admin';
 
-    public const WORKER_MEMBER = 'worker_member';
-
-    public const RESIDENCE_MEMBER = 'residence_member';
+    public const PRE_MEMBER = 'pre_member';
 
     public const GENERAL_MEMBER = 'general_member';
 }
