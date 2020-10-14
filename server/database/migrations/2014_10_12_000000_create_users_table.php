@@ -16,11 +16,10 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
             $table->string('email')->unique();
             $table->string('cognito_username')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('role')->default(Role::GENERAL_MEMBER);
+            $table->string('role')->default(Role::PRE_MEMBER);
             $table->rememberToken();
             $table->timestamps();
         });
