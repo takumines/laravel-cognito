@@ -25,11 +25,19 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
         Route::get('/', 'ApiController@index');
         Route::get('users/{user}', 'ApiController@show');
 
-        Route::get('works', 'Member\WorkController@index');
-        Route::post('works', 'Member\WorkController@store');
-        Route::get('works/{work}', 'Member\WorkController@show');
-        Route::put('works/{work}', 'Member\WorkController@update');
-        Route::delete('works/{work}', 'Member\WorkController@destroy');
+        Route::namespace('Member')->group(function () {
+            // niclass会員出ないとアクセスできないルーティング　今はコメントアウトしておく
+//            Route::get('works', 'WorkController@index');
+//            Route::post('works', 'WorkController@store');
+//            Route::get('works/{work}', 'WorkController@show');
+//            Route::put('works/{work}', 'WorkController@update');
+//            Route::delete('works/{work}', 'WorkController@destroy');
+
+            Route::get('facilities', 'FacilityController@index');
+            Route::get('facilities/{facility}', 'FacilityController@show');
+
+            Route::post('profiles', 'ProfileController@update');
+        });
 
         Route::namespace('Admin')->middleware('admin')->group(function () {
             Route::get('admin', 'HomeController@index');
