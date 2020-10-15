@@ -6,5 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Request extends Model
 {
-    //
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'property_id', 'membership_type_id',
+    ];
 }

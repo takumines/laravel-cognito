@@ -1,28 +1,26 @@
 <?php
 
-use App\Models\Facility;
+use App\Models\Property;
 use App\Models\MembershipType;
 use Illuminate\Database\Seeder;
 use App\Enums\MembershipType as Type;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
-class FacilityMembershipTypeSeeder extends Seeder
+class PropertyMembershipTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run(MembershipType $membershipType, Facility $facility)
+    public function run(MembershipType $membershipType, Property $property)
     {
         $membershipTypes = $membershipType->all();
 
-        $facilities = $facility->all();
+        $properties = $property->all();
 
-        foreach ($facilities as $facility) {
+        foreach ($properties as $property) {
             foreach ($membershipTypes as $membershipType) {
-                $facility->membershipTypes()->attach(
+                $property->membershipTypes()->attach(
                     $membershipType->id,
                     [
                         'price' => $this->insertPrice($membershipType->type),
