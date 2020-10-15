@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class FacilitySeeder extends Seeder
+class PropertySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class FacilitySeeder extends Seeder
     {
         $now = Carbon::now();
 
-        DB::table('facilities')->insert([
+        DB::table('properties')->insert([
             [
                 'name'        => '海部屋',
                 'description' => '海が見える部屋です',
