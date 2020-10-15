@@ -35,8 +35,8 @@ class ProfileRequest extends ApiRequest
             'birthday'                     => ['required', 'date', 'before:today'],
             'annual_income'                => ['required', 'integer'],
             'entry_sheet'                  => ['required', 'string', 'max:1000'],
-//            'identification_photo_front'   => ['file', 'mimes:jpeg,png,jpg'],
-//            'identification_photo_reverse' => ['file', 'mimes:jpeg,png,jpg'],
+            'identification_photo_front'   => ['file', 'mimes:jpeg,png,jpg'],
+            'identification_photo_reverse' => ['file', 'mimes:jpeg,png,jpg'],
         ];
     }
 }
