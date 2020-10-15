@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use Illuminate\Support\Facades\Storage;
 
 class ProfileRequest extends ApiRequest
 {
@@ -35,8 +36,16 @@ class ProfileRequest extends ApiRequest
             'birthday'                     => ['required', 'date', 'before:today'],
             'annual_income'                => ['required', 'integer'],
             'entry_sheet'                  => ['required', 'string', 'max:1000'],
-            'identification_photo_front'   => ['file', 'mimes:jpeg,png,jpg'],
-            'identification_photo_reverse' => ['file', 'mimes:jpeg,png,jpg'],
+            'identification_photo_front'   => ['required', 'string', function ($attribute, $value, $fail) {
+                if (!Storage::exists($value)) {
+                    return $fail('file path does not exist in disk');
+                }
+            }],
+            'identification_photo_reverse' => ['required', 'string', function ($attribute, $value, $fail) {
+                if (!Storage::exists($value)) {
+                    return $fail('file path does not exist in disk');
+                }
+            }],
         ];
     }
 }
