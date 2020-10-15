@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Models\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class RequestController extends Controller
@@ -25,8 +24,9 @@ class RequestController extends Controller
 
         return response()->json([
             'message' => 'success'
-                                ]);
 
+        ]);
+// 参考コードとして一応コメントアウトしている
 //        $headers = [
 //            'Content-Type' => $result['ContentType'],
 //            'Content-Disposition' => 'ContentType'
