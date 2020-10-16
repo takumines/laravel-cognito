@@ -18,20 +18,12 @@ class RequestController extends Controller
             'Key'    => $identificationImage
         ]);
         header('Content-Type: ' . $result['ContentType']);
-        header("Content-Disposition: ContentType");
+        header("Content-Disposition: attachment");
 
         print($result['Body']);
 
         return response()->json([
             'message' => 'success'
-
         ]);
-// 参考コードとして一応コメントアウトしている
-//        $headers = [
-//            'Content-Type' => $result['ContentType'],
-//            'Content-Disposition' => 'ContentType'
-//        ];
-//
-//        return response()->make(Storage::get($identificationImage), 200, $headers);
     }
 }
