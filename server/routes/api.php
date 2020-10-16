@@ -19,26 +19,28 @@ Route::namespace('Api')->group(function () {
 
 Route::namespace('Api')->middleware('auth:api')->group(function () {
     Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify');
+    Route::post('email/resend', 'Auth\VerificationController@resend');
 
     Route::middleware('verified')->group(function () {
-        Route::post('email/resend', 'Auth\VerificationController@resend');
         Route::get('/', 'ApiController@index');
         Route::get('users/{user}', 'ApiController@show');
 
         Route::namespace('Member')->group(function () {
-            // niclass会員出ないとアクセスできないルーティング　今はコメントアウトしておく
-//            Route::get('works', 'WorkController@index');
-//            Route::post('works', 'WorkController@store');
-//            Route::get('works/{work}', 'WorkController@show');
-//            Route::put('works/{work}', 'WorkController@update');
-//            Route::delete('works/{work}', 'WorkController@destroy');
-
             Route::get('properties', 'PropertyController@index');
             Route::get('properties/{property}', 'PropertyController@show');
 
             Route::post('profiles', 'ProfileController@update');
             Route::post('profiles/identification', 'ProfileController@identificationUpload');
             Route::post('requests', 'RequestController@store');
+        });
+
+        // 会員メンバーのみアクセス可能
+        Route::middleware('membership')->group(function () {
+            Route::get('works', 'WorkController@index');
+            Route::post('works', 'WorkController@store');
+            Route::get('works/{work}', 'WorkController@show');
+            Route::put('works/{work}', 'WorkController@update');
+            Route::delete('works/{work}', 'WorkController@destroy');
         });
 
         Route::namespace('Admin')->middleware('admin')->group(function () {
