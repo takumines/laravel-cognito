@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
 
@@ -12,6 +12,9 @@ class VerificationController extends Controller
 {
     use VerifiesEmails;
 
+    /**
+     * VerificationController constructor.
+     */
     public function __construct()
     {
         $this->middleware('throttle:6.1');
@@ -24,28 +27,19 @@ class VerificationController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws AuthorizationException
      */
-    public function verify(Request $request)
+    public function verify(Request $request, User $user)
     {
-        if (! hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
+        $currentUser = $user->findOrFail($request->route('id'));
+        if (! hash_equals((string) $request->route('id'), (string) $currentUser->getKey())) {
             throw new AuthorizationException;
         }
 
-        if (! hash_equals((string) $request->route('hash'), sha1($request->user()->getEmailForVerification()))) {
+        if (! hash_equals((string) $request->route('hash'), sha1($currentUser->getEmailForVerification()))) {
             throw new AuthorizationException;
-        }
-
-        $user = $request->user();
-        if(!$user->email_verified_at) {
-            $user->markEmailAsVerified();
-            event(new Verified($user));
-
-            return response()->json([
-                'message' => 'Email Verified',
-            ]);
         }
 
         return response()->json([
-            'message' => 'Email Verify Failed'
+            'message' => 'Email Verified',
         ]);
     }
 
@@ -53,22 +47,15 @@ class VerificationController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function resend(Request $request)
+    public function resend(Request $request, User $user)
     {
-        $user = $request->user();
-        if (!$user) {
-            return response()->json([
-                'message' => 'No Such User'
-            ]);
-        }
-
-        if ($request->user()->hasVerifiedEmail()) {
+        $currentUser = $user->where('email', $request->input('email'))->firstOrFail();
+        if ($currentUser->hasVerifiedEmail()) {
             return response()->json([
                 'message' => 'Already Verified User'
             ]);
         }
-
-        $user->sendEmailVerificationNotification();
+        $currentUser->sendEmailVerificationNotification();
 
         return response()->json([
             'message' => 'Send Verify Email'
