@@ -31,6 +31,7 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
             Route::post('profiles', 'ProfileController@update');
             Route::post('profiles/identification', 'ProfileController@identificationUpload');
             Route::post('requests', 'RequestController@store');
+            Route::post('settlements/authorization', 'SettlementController@authorization');
         });
 
         // 会員メンバーのみアクセス可能
