@@ -18,4 +18,7 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 Route::middleware(['auth'])->group(function() {
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/card', 'HomeController@card');
+    Route::post('/card', 'HomeController@store')->name('charge');
+    Route::get('/status', 'HomeController@status');
 });
