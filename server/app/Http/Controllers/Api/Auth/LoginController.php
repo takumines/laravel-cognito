@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,11 +18,17 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
+     * @var AuthManager
+     */
+    private $authManager;
+
+    /**
      * LoginController constructor.
      */
-    public function __construct()
+    public function __construct(AuthManager $authManager)
     {
         $this->middleware('guest')->except('logout');
+        $this->authManager = $authManager;
     }
 
     /**
@@ -29,7 +38,7 @@ class LoginController extends Controller
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|void
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(Request $request)
+    public function login(Request $request, User $user)
     {
         $this->validateLogin($request);
 
@@ -37,6 +46,17 @@ class LoginController extends Controller
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
+        }
+
+        // 初回ログイン時の処理
+        $currentUser = $user->where('email', $request->input('email'))->firstOrFail();
+        if (!$currentUser->email_verified_at) {
+            $this->validateFirstLogin($request);
+            if (! hash_equals((string) $request->input('token'), sha1($currentUser->getEmailForVerification()))) {
+                throw new AuthorizationException;
+            }
+            $currentUser->markEmailAsVerified();
+            $this->authManager->confirmSignUp($currentUser->email);
         }
 
         try {
@@ -90,5 +110,17 @@ class LoginController extends Controller
                 ])
             ],
         ])->status(Response::HTTP_TOO_MANY_REQUESTS);
+    }
+
+    /**
+     * 初回ログイン時のバリデーション
+     *
+     * @param Request $request
+     */
+    protected function validateFirstLogin(Request $request)
+    {
+        $request->validate([
+            'token' => 'required|string',
+        ]);
     }
 }
