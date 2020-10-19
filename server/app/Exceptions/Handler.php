@@ -5,7 +5,9 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use League\OAuth2\Server\Exception\OAuthServerException;
 
 class Handler extends ExceptionHandler
@@ -63,6 +65,11 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => $exception->getMessage()
             ], 403);
+        }
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 404);
         }
         return parent::render($request, $exception);
     }

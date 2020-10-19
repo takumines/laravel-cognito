@@ -8,8 +8,6 @@ use App\Models\User;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\JsonResponse;
-
 
 class RegisterController extends Controller
 {
@@ -32,7 +30,7 @@ class RegisterController extends Controller
 
     /**
      * @param RegisterRequest $request
-     * @return JsonResponse
+     * @return \App\Http\Resources\Member\User
      */
     public function register(RegisterRequest $request)
     {
@@ -44,18 +42,10 @@ class RegisterController extends Controller
                 'email' => $data['email'],
             ]
         );
-
         $user = $this->create($data, $username);
-        if ($user) {
-            event(new Registered($user));
-            $this->authManager->confirmSignUp($user->email);
-        }
+        event(new Registered($user));
 
-        $token = $user->createToken('user_token')->accessToken;
-
-        return response()->json([
-            'token' => $token,
-        ]);
+        return new \App\Http\Resources\Member\User($user);
     }
 
     /**
