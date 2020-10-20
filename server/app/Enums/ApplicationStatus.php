@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Enums;
-
 
 use MyCLabs\Enum\Enum;
 
