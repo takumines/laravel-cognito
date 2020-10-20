@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
-use App\Models\Request;
+use App\Models\Application;
 use Illuminate\Support\Facades\Storage;
 
-class RequestController extends Controller
+class ApplicationController extends Controller
 {
-    public function download(Request $request, Profile $profile)
+    public function download(Application $application, Profile $profile)
     {
-        $applyProfile = $profile->where('user_id', $request->user_id)->first();
+        $applyProfile = $profile->where('user_id', $application->user_id)->first();
         $identificationImage = $applyProfile->identification_photo_front;
         $result = Storage::disk('s3')->getAdapter()->getclient()->getObject([
             'Bucket' => 'test-niclass',

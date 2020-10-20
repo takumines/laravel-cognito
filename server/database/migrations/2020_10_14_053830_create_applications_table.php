@@ -1,11 +1,11 @@
 <?php
 
-use App\Enums\RequestStatus;
+use App\Enums\ApplicationStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRequestsTable extends Migration
+class CreateApplicationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,13 @@ class CreateRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('property_id')->unsigned();
             $table->bigInteger('membership_type_id')->unsigned();
-            $table->string('status','50')->default(RequestStatus::DRAUGHT);
+            $table->string('charge_id')->nullable();
+            $table->string('status','50')->default(ApplicationStatus::DRAUGHT);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -35,6 +36,6 @@ class CreateRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('application');
     }
 }

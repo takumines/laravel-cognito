@@ -53,7 +53,7 @@ class LoginController extends Controller
         if (!$currentUser->email_verified_at) {
             $this->validateFirstLogin($request);
             if (! hash_equals((string) $request->input('token'), sha1($currentUser->getEmailForVerification()))) {
-                throw new AuthorizationException;
+                throw new AuthorizationException();
             }
             $currentUser->markEmailAsVerified();
             $this->authManager->confirmSignUp($currentUser->email);
@@ -107,7 +107,7 @@ class LoginController extends Controller
             $this->username() => [
                 Lang::get('auth.throttle', [
                     'seconds' => $seconds,
-                    'minutes' => ceil($seconds /60),
+                    'minutes' => ceil($seconds / 60),
                 ])
             ],
         ])->status(Response::HTTP_TOO_MANY_REQUESTS);

@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Enums;
-
 
 use MyCLabs\Enum\Enum;
 
-class RequestStatus extends Enum
+class ApplicationStatus extends Enum
 {
     public const  DRAUGHT = 'draught';
 

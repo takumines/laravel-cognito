@@ -21,8 +21,6 @@ Route::namespace('Api')->group(function () {
 
 Route::namespace('Api')->middleware('auth:api')->group(function () {
     Route::middleware('verified')->group(function () {
-        Route::get('/', 'ApiController@index');
-        Route::get('users/{user}', 'ApiController@show');
 
         Route::namespace('Member')->group(function () {
             Route::get('properties', 'PropertyController@index');
@@ -30,7 +28,7 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
 
             Route::post('profiles', 'ProfileController@update');
             Route::post('profiles/identification', 'ProfileController@identificationUpload');
-            Route::post('requests', 'RequestController@store');
+            Route::post('applications', 'ApplicationController@store');
             Route::post('settlements/authorization', 'SettlementController@authorization');
         });
 
@@ -46,7 +44,7 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
         Route::namespace('Admin')->middleware('admin')->group(function () {
             Route::get('admin', 'HomeController@index');
             Route::get('admin/users/{user}', 'UserController@show');
-            Route::get('admin/requests/{request}/download', 'RequestController@download');
+            Route::get('admin/requests/{request}/download', 'ApplicationController@download');
             Route::post('admin/settlements/capture', 'SettlementController@capture');
         });
     });

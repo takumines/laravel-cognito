@@ -26,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new VerifyEmail);
+        $this->notify(new VerifyEmail());
     }
 
     public function works()
@@ -39,8 +39,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Models\Profile');
     }
 
-    public function request()
+    public function application()
     {
-        return $this->hasOne('App\Models\Request');
+        return $this->hasOne('App\Models\Application');
     }
 }
