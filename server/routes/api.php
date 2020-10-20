@@ -31,6 +31,7 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
             Route::post('profiles', 'ProfileController@update');
             Route::post('profiles/identification', 'ProfileController@identificationUpload');
             Route::post('requests', 'RequestController@store');
+            Route::post('settlements/authorization', 'SettlementController@authorization');
         });
 
         // 会員メンバーのみアクセス可能
@@ -46,6 +47,7 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
             Route::get('admin', 'HomeController@index');
             Route::get('admin/users/{user}', 'UserController@show');
             Route::get('admin/requests/{request}/download', 'RequestController@download');
+            Route::post('admin/settlements/capture', 'SettlementController@capture');
         });
     });
 });

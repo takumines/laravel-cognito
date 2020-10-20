@@ -57,6 +57,7 @@ class LoginController extends Controller
             }
             $currentUser->markEmailAsVerified();
             $this->authManager->confirmSignUp($currentUser->email);
+            $currentUser->createAsStripeCustomer();
         }
 
         try {
