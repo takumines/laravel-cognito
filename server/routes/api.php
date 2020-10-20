@@ -47,6 +47,7 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
             Route::get('admin', 'HomeController@index');
             Route::get('admin/users/{user}', 'UserController@show');
             Route::get('admin/requests/{request}/download', 'RequestController@download');
+            Route::post('admin/settlements/capture', 'SettlementController@capture');
         });
     });
 });
