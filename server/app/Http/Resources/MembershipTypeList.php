@@ -5,7 +5,6 @@ namespace App\Http\Resources;
 use App\Models\MembershipType;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-
 class MembershipTypeList extends JsonResource
 {
     /**

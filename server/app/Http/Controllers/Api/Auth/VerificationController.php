@@ -31,11 +31,11 @@ class VerificationController extends Controller
     {
         $currentUser = $user->findOrFail($request->route('id'));
         if (! hash_equals((string) $request->route('id'), (string) $currentUser->getKey())) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         if (! hash_equals((string) $request->route('hash'), sha1($currentUser->getEmailForVerification()))) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         return response()->json([

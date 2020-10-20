@@ -177,7 +177,7 @@ module.exports = function xhrAdapter(config) {
         return;
       }
 
-      reject(createError('Request aborted', config, 'ECONNABORTED', request));
+      reject(createError('Application aborted', config, 'ECONNABORTED', request));
 
       // Clean up request
       request = null;
@@ -958,7 +958,7 @@ module.exports = function settle(resolve, reject, response) {
     resolve(response);
   } else {
     reject(createError(
-      'Request failed with status code ' + response.status,
+      'Application failed with status code ' + response.status,
       response.config,
       null,
       response.request,
@@ -15754,7 +15754,7 @@ jQuery.extend( {
 			// Url cleanup var
 			urlAnchor,
 
-			// Request state (becomes false upon send and true upon completion)
+			// Application state (becomes false upon send and true upon completion)
 			completed,
 
 			// To know if global events are to be dispatched
