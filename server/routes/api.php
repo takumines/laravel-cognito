@@ -30,15 +30,15 @@ Route::namespace('Api')->middleware('auth:api')->group(function () {
             Route::post('profiles/identification', 'ProfileController@identificationUpload');
             Route::post('applications', 'ApplicationController@store');
             Route::post('settlements/authorization', 'SettlementController@authorization');
-        });
 
-        // 会員メンバーのみアクセス可能
-        Route::middleware('membership')->group(function () {
-            Route::get('works', 'WorkController@index');
-            Route::post('works', 'WorkController@store');
-            Route::get('works/{work}', 'WorkController@show');
-            Route::put('works/{work}', 'WorkController@update');
-            Route::delete('works/{work}', 'WorkController@destroy');
+            // 会員メンバーのみアクセス可能
+            Route::middleware('membership')->group(function () {
+                Route::get('works', 'WorkController@index');
+                Route::post('works', 'WorkController@store');
+                Route::get('works/{work}', 'WorkController@show');
+                Route::put('works/{work}', 'WorkController@update');
+                Route::delete('works/{work}', 'WorkController@destroy');
+            });
         });
 
         Route::namespace('Admin')->middleware('admin')->group(function () {

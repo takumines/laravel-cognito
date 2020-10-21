@@ -23,12 +23,10 @@ class WorkController extends Controller
      * @param Work $work
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Work $work)
+    public function index()
     {
-        $works = $work->all();
-
         return response()->json([
-            'works' => $works
+            'message' => 'success'
         ]);
     }
 

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\AuthoriRequest;
 use App\Http\Resources\Member\User;
 use App\Models\Application;
-use Illuminate\Support\Facades\Log;
 
 class SettlementController extends Controller
 {
@@ -20,7 +19,6 @@ class SettlementController extends Controller
      */
     public function authorization(AuthoriRequest $request, Application $application)
     {
-        Log::info('ss');
         $user = $request->user();
         if (!$user->hasPaymentMethod()) {
             $user->updateDefaultPaymentMethod($request->payment_method);
