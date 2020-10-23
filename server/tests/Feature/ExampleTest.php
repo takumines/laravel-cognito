@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
@@ -14,8 +13,16 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $response = $this->get('/');
+        $array = [1,2,3];
+        $result = array_reduce($array, function ($carry, $item) {
+            $lastIndex = array_key_last($carry);
+            if (!is_null($lastIndex)) {
+                return array_merge($carry, array($carry[$lastIndex] + $item));
+            } else {
+                return array_merge($carry, array($item));
+            }
+        }, []);
 
-        $response->assertStatus(200);
+        $this->assertEquals([1,3,6], $result);
     }
 }
