@@ -80,6 +80,19 @@ class PropertyDetailTest extends LaravelPassportTestCase
                 );
             }
         }
+
+        // foreachを使わずに処理を書く練習
+//        array_map(
+//            function ($membership) use ($keys) {
+//                return $result = array_map(
+//                    function ($key) use ($membership) {
+//                        return array_key_exists($key, $membership);
+//                    },
+//                    $keys
+//                );
+//            },
+//            $memberships
+//        );
     }
 
     /**
@@ -100,6 +113,7 @@ class PropertyDetailTest extends LaravelPassportTestCase
     }
 
     /**
+     * 練習コード
      * 会員種別のプロパティをチェック
      *
      * @param array $memberships
@@ -118,6 +132,12 @@ class PropertyDetailTest extends LaravelPassportTestCase
         }
     }
 
+    /**
+     * 練習コード
+     *
+     * @param string $membershipType
+     * @return bool
+     */
     public function example2(string $membershipType)
     {
         return MembershipType::isValid($membershipType);
