@@ -25,4 +25,23 @@ class ExampleTest extends TestCase
 
         $this->assertEquals([1,3,6], $result);
     }
+
+    public function testPagenation()
+    {
+        $str = "34 10 3";
+        $nums = explode(" ", $str);
+        $start = $nums[1] * ($nums[2] - 1) + 1;
+        $max_page = ceil($nums[0] / $nums[1]);
+
+        if ($nums[2] <= $max_page) {
+            for($i = 0; $i < $nums[1]; $i++) {
+                $value[] = $start;
+                $start = $start + 1;
+            }
+        } else {
+            $start = 'none';
+        }
+
+        $this->assertEquals("21 22 23 24 25 26 27 28 29 30", implode(" ", $value));
+    }
 }
