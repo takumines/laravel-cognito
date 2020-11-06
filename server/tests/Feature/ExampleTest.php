@@ -26,7 +26,7 @@ class ExampleTest extends TestCase
         $this->assertEquals([1,3,6], $result);
     }
 
-    public function testPagenation()
+    public function testPagination()
     {
         $str = "34 10 3";
         $nums = explode(" ", $str);
